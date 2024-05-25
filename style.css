@@ -1,0 +1,395 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    box-sizing: border-box;
+}
+:root {
+    font-size: 10px;
+    overflow-y: scroll;
+
+    --bg: black;
+    --fg: white;
+    --note-selected-bg: rgb(185, 186, 187);
+    background-color: var(--bg);
+    color: var(--fg);
+}
+
+.lightmode {
+    --bg: white;
+    --fg: black;
+    --note-selected-bg: rgb(56, 56, 56);
+    background-color: var(--bg);
+    color: var(--fg);
+}
+
+body {
+    line-height: 1.5;
+    font-family: system-ui, sans-serif;
+    font-size: 1.6rem;
+    position: relative;
+}
+
+:focus-visible {
+    outline: 0.2rem solid orange;
+    /* outline-offset: 1rem; */
+}
+
+h1,
+h2,
+h3 {
+    font-weight: normal;
+}
+
+h1 {
+    display: flex;
+    flex-direction: column;
+    @media screen and (width >= 360px) {
+        flex-direction: row;
+    }
+    gap: 1.5rem;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+    font-size: clamp(2rem, 1.6348rem + 2.087vw, 3.2rem);
+
+    & svg {
+        width: inherit;
+    }
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.theme-toggler {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+
+    & button {
+        font-size: clamp(1.4rem, 1.3391rem + 0.3478vw, 1.6rem);
+        font-family: inherit;
+        background-color: #405cf5;
+        color: white;
+        width: 2.5rem;
+        height: 1.3rem;
+        border-radius: 2rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 2px;
+
+        & span {
+            height: 1.3rem;
+            width: 1.3rem;
+            background-color: white;
+            border-radius: 50%;
+        }
+    }
+
+    & p {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: currentColor;
+
+        &.light {
+            opacity: 0.75;
+        }
+
+        &.dark {
+            opacity: 1;
+        }
+    }
+}
+
+.lightmode {
+    & .theme-toggler button {
+        justify-content: flex-start;
+    }
+
+    & p {
+        &.light {
+            opacity: 1;
+        }
+
+        &.dark {
+            opacity: 0.5;
+        }
+    }
+}
+
+.page-container {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100dvh;
+    height: 100vh;
+}
+
+.page-header,
+.page-footer {
+    padding: 4rem 2rem;
+}
+
+.page-header,
+.page-footer {
+    text-align: center;
+
+    border-style: solid;
+    border-color: var(--fg);
+}
+
+.page-header {
+    border-width: 0 0 2px 0;
+}
+
+.page-footer {
+    border-width: 2px 0 0 0;
+}
+
+.page-footer {
+    & a {
+        color: var(--fg);
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &::after {
+            content: " \27F6";
+        }
+    }
+}
+
+.skip-link {
+    color: var(--body-txt);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+
+    &::after {
+        content: " \2193";
+    }
+}
+
+/**
+  MARKDOWN APP STYLES
+ */
+.ql-editor p,
+.ql-editor.ql-blank::before {
+    font-size: 1.3em;
+    font-weight: 100;
+}
+
+.pane {
+    overflow-y: auto;
+}
+
+.sidebar {
+    width: 20%;
+    height: 100vh;
+}
+
+.sidebar--header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+.sidebar--items {
+    padding-left: 0;
+    list-style: none;
+}
+
+.new-note {
+    font-weight: 600;
+    font-size: clamp(1.4rem, 1.3391rem + 0.3478vw, 1.6rem);
+    font-family: inherit;
+    background-color: #405cf5;
+    color: white;
+    border-radius: 3px;
+    height: 3rem;
+    width: 3rem;
+    display: grid;
+    place-items: center;
+    border: none;
+}
+
+.first-note {
+    background-color: #405cf5;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    padding: 1rem;
+}
+
+.editor {
+    width: 80%;
+    height: 100vh;
+}
+
+.title {
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline-end: 0.5rem;
+}
+
+.title--delete {
+    display: none;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+.title:hover .title--delete {
+    display: block;
+}
+
+.note-summary:not(:last-of-type) {
+    border-bottom: 1px solid lightgray;
+}
+
+.text-snippet {
+    padding: 1rem;
+    font-weight: 400;
+    line-height: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: clamp(1.4rem, 1.3391rem + 0.3478vw, 1.6rem);
+    font-family: inherit;
+}
+
+.selected-note {
+    background-color: var(--note-selected-bg);
+    color: var(--bg);
+}
+
+/** gutter **/
+
+.gutter {
+    background-color: #eee;
+
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
+}
+
+.gutter.gutter-horizontal:hover {
+    cursor: col-resize;
+}
+
+.split {
+    display: flex;
+}
+
+.no-notes {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    & h2 {
+        margin-bottom: 1rem;
+        color: var(--fg);
+    }
+}
+
+/* Editor */
+.mde-preview .mde-preview-content pre,
+.react-mde-tabbed-layout,
+.mde-header,
+.mde-header * {
+    background: var(--bg) !important;
+}
+
+.mde-header * {
+    color: var(--fg);
+}
+.mde-header .mde-tabs button {
+    padding: 0.5rem 1rem;
+}
+
+.mde-text {
+    font-size: inherit;
+    font-family: inherit;
+    background-color: var(--bg);
+    color: var(--fg);
+    &:focus-visible {
+        outline-offset: -1px;
+    }
+}
+
+/** Helpers **/
+.element-invisible {
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    &.element-focusable:active,
+    &.element-focusable:focus {
+        clip: auto;
+        height: auto;
+        overflow: visible;
+    }
+}
+
+/* Screenreader only */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(0);
+    border: 0;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+    html,
+    html:focus-within {
+        scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+        transition-delay: 0ms !important;
+    }
+}
+
+.warning {
+    color: var(--clr-warning);
+    font-weight: 600;
+}
+/* Always comes last **/
+.hide {
+    display: none;
+}
